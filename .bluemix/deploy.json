@@ -1,0 +1,40 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "Schematics Terraform Prototype",
+    "description": "Prototype toolchain templates for IBM Cloud Schematics",
+    "type": "object",
+    "properties": {
+        "api-key": {
+            "description": "IBM Cloud API Key",
+            "type": "string",
+            "validator": {
+                "v-type": "api-key"
+            }
+        },
+        "workspace-name": {
+            "description": "Schematics Workspace Name",
+            "type": "string"
+        }
+    },
+    "required": [
+        "api-key",
+        "workspace-id"
+    ],
+    "form": [{
+            "type": "validator",
+            "url": "/devops/validator/validator-v1.html"
+        },
+        {
+            "type": "text",
+            "readonly": false,
+            "title": "Workspace Id",
+            "key": "workspace-id"
+        },
+        {
+            "type": "password",
+            "readonly": false,
+            "title": "IBM Cloud API Key",
+            "key": "api-key"
+        }
+    ]
+}

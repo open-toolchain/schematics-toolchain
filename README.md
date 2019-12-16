@@ -1,2 +1,3 @@
-# schematics-toolchain
-Placeholder repo for IBM Cloud Schematics toolchain template
+# Schematics Terraform Prototype
+
+DRAFT: Prototype toolchain templates for IBM Cloud Schematics 

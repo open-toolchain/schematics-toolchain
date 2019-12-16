@@ -1,0 +1,44 @@
+---
+defaultBaseImageVersion: latest
+properties:
+- name: API_KEY
+  value: ${API_KEY}
+  type: secure
+- name: WORKSPACE_ID
+  value: ${WORKSPACE_ID}
+  type: text
+stages:
+- name: DEPLOY
+  inputs:
+  - type: git
+    branch: master
+    service: ${TERRAFORM_REPO}
+  triggers:
+  - type: commit
+  jobs:
+  - name: "Terraform Apply"
+    type: builder
+    build_type: shell
+    script: |
+      #!/bin/bash
+      echo "Workspace $WORKSPACE_ID"
+
+      #force login again
+      # calls to schematics were failing without it, 
+      # so I *assume* that schematics only works if you're targeting some regions.
+      # my toolchain was originally targeting us-east, but after forcing login to 
+      # us-south, things started working.  this is fine for PoC, will have to be resolved
+      # for a production template
+
+      ibmcloud login --apikey $API_KEY -r us-south
+
+      echo "ibmcloud terraform workspace update -i $WORKSPACE_ID"
+      ibmcloud terraform workspace update -i $WORKSPACE_ID
+
+      # apply changes (there should actually be a terraform plan stage before this)
+      echo "ibmcloud terraform apply -i $WORKSPACE_ID --force"
+      ibmcloud terraform apply -i $WORKSPACE_ID --force
+
+
+
+
