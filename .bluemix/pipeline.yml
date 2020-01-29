@@ -71,7 +71,7 @@ stages:
     stage: UPDATE
     job: Update Workspace
   triggers:
-  - type: commit
+  - type: stage
   jobs:
   - name: "Terraform plan"
     type: builder
@@ -128,7 +128,7 @@ stages:
     stage: PLAN
     job: Terraform plan
   triggers:
-  - type: commit
+  - type: stage
   jobs:
   - name: "Terraform Apply"
     type: builder
