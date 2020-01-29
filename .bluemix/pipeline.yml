@@ -65,7 +65,6 @@ stages:
       # cleanup
       rm -f workspace.json
       unset WORKSPACE
-
 - name: PLAN
   inputs:
   - type: job
@@ -123,7 +122,6 @@ stages:
         # sleep for 5 seconds, while waiting for completion
         sleep 5
       done
-
 - name: DEPLOY
   inputs:
   - type: job
