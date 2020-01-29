@@ -18,6 +18,7 @@ stages:
   jobs:
   - name: "Update Workspace"
     type: builder
+    artifact_dir: ''
     build_type: shell
     script: |
       #!/bin/bash
@@ -69,12 +70,13 @@ stages:
   inputs:
   - type: job
     stage: UPDATE
-    job: Update Workspace
+    job: "Update Workspace"
   triggers:
   - type: stage
   jobs:
-  - name: "Terraform plan"
+  - name: "Terraform Plan"
     type: builder
+    artifact_dir: ''
     build_type: shell
     script: |
       #!/bin/bash
@@ -126,12 +128,13 @@ stages:
   inputs:
   - type: job
     stage: PLAN
-    job: Terraform plan
+    job: "Terraform Plan"
   triggers:
   - type: stage
   jobs:
   - name: "Terraform Apply"
     type: builder
+    artifact_dir: ''
     build_type: shell
     script: |
       #!/bin/bash
