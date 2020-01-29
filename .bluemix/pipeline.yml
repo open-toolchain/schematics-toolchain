@@ -124,7 +124,7 @@ stages:
         # sleep for 5 seconds, while waiting for completion
         sleep 5
       done
-- name: DEPLOY
+- name: APPLY
   inputs:
   - type: job
     stage: PLAN
