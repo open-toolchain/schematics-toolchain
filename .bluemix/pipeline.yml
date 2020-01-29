@@ -117,7 +117,7 @@ stages:
           if [ "$STATUS_VALUE" = "FAILED" ]; then
             exit 1
           elif [ "$STATUS_VALUE" != "INPROGRESS" ]; then  
-            exit 0
+            break
           fi
         fi
 
@@ -175,7 +175,7 @@ stages:
           if [ "$STATUS_VALUE" = "FAILED" ]; then
             exit 1
           elif [ "$STATUS_VALUE" != "INPROGRESS" ]; then  
-            exit 0
+            break
           fi
         fi
 
