@@ -1,7 +1,7 @@
 {
     "$schema": "http://json-schema.org/draft-04/schema#",
     "title": "Schematics Terraform Prototype",
-    "description": "Prototype toolchain templates for IBM Cloud Schematics",
+    "description": "Toolchain template for IBM Cloud Schematics",
     "type": "object",
     "properties": {
         "api-key": {
@@ -11,8 +11,8 @@
                 "v-type": "api-key"
             }
         },
-        "workspace-name": {
-            "description": "Schematics Workspace Name",
+        "workspace-id": {
+            "description": "IBM Cloud Schematics Workspace ID",
             "type": "string"
         }
     },

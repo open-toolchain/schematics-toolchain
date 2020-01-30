@@ -121,6 +121,8 @@ stages:
         # sleep for 5 seconds, while waiting for completion
         sleep 5
       done
+
+      ibmcloud terraform logs --id $WORKSPACE_ID --act-id $ACTIVITY_ID
 - name: APPLY
   inputs:
   - type: job
@@ -178,6 +180,24 @@ stages:
         # sleep for 5 seconds, while waiting for completion
         sleep 5
       done
+
+      ibmcloud terraform logs --id $WORKSPACE_ID --act-id $ACTIVITY_ID
+- name: TEST
+  inputs:
+  - type: job
+    stage: APPLY
+    job: "Terraform Apply"
+  triggers:
+  - type: stage
+  jobs:
+  - name: "Terraform Apply"
+    type: builder
+    artifact_dir: ''
+    build_type: shell
+    script: |
+      #!/bin/bash
+
+      echo "You can add tests here to ensure that your resources are healthy!"
 
 
 
