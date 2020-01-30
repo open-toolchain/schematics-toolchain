@@ -1,6 +1,6 @@
 version: '2'
 template:
-  name: 'Schematics Infrastructure ∂as Code Toolchain'
+  name: 'Schematics Infrastructure as Code Toolchain'
   description: "Prototype toolchain templates for IBM Cloud Schematics "
   icon: icon.svg
   required:
