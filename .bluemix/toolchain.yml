@@ -1,8 +1,6 @@
 version: '2'
 template:
-  name: 'Schematics Terraform Prototype'
-  #name:
-  #  $ref: "#/messages/template.name"
+  name: 'Schematics Infrastructure ∂as Code Toolchain'
   description: "Prototype toolchain templates for IBM Cloud Schematics "
   icon: icon.svg
   required:
