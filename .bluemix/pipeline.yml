@@ -190,7 +190,7 @@ stages:
   triggers:
   - type: stage
   jobs:
-  - name: "Terraform Apply"
+  - name: "Check Health"
     type: builder
     artifact_dir: ''
     build_type: shell
