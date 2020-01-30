@@ -47,7 +47,7 @@ services:
     parameters:
       services:
         - terraform-repo
-      name: 'Schematics - Infrastructure as Code'
+      name: 'Schematics Pipeline'
       ui-pipeline: true
       configuration:
         content:
