@@ -25,8 +25,8 @@ stages:
       echo "Workspace $WORKSPACE_ID"
 
       # force login (required by schematics cli)
-      export API=$(echo $IDS_URL | cut -d'/' -f3)
-      export REGION=$(echo $TOOLCHAIN_CRN | cut -d':' -f6)
+      API=$(echo $IDS_URL | cut -d'/' -f3)
+      REGION=$(echo $TOOLCHAIN_CRN | cut -d':' -f6)
       ibmcloud login --apikey $API_KEY -a "https://$API" -r $REGION
 
       # get schematics workspace as json
@@ -82,8 +82,8 @@ stages:
       #!/bin/bash
 
       # force login (required by schematics cli)
-      export API=$(echo $IDS_URL | cut -d'/' -f3)
-      export REGION=$(echo $TOOLCHAIN_CRN | cut -d':' -f6)
+      API=$(echo $IDS_URL | cut -d'/' -f3)
+      REGION=$(echo $TOOLCHAIN_CRN | cut -d':' -f6)
       ibmcloud login --apikey $API_KEY -a "https://$API" -r $REGION
 
       echo "ibmcloud terraform plan --id $WORKSPACE_ID"
@@ -140,8 +140,8 @@ stages:
       #!/bin/bash
 
       # force login (required by schematics cli)
-      export API=$(echo $IDS_URL | cut -d'/' -f3)
-      export REGION=$(echo $TOOLCHAIN_CRN | cut -d':' -f6)
+      API=$(echo $IDS_URL | cut -d'/' -f3)
+      REGION=$(echo $TOOLCHAIN_CRN | cut -d':' -f6)
       ibmcloud login --apikey $API_KEY -a "https://$API" -r $REGION
 
       echo "ibmcloud terraform apply --id $WORKSPACE_ID --force"
