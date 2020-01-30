@@ -7,6 +7,9 @@ This repo contains an Open Toolchain template for automating workflow with [IBM 
 2. Once the Workspace is created, go to the  "Settings" tab and click the "Enable continuous delivery" button.
 3. Complete the toolchain setup form and click "Create" to create a toolchain
 
+### To get started, click this button:
+[![Deploy To IBM Cloud](https://console.bluemix.net/devops/graphics/create_toolchain_button.png)](https://cloud.ibm.com/devops/setup/deploy?repository=https://github.com/open-toolchain/schematics-toolchain)
+
 ## Pipeline Details
 
 The pipeline assumes a Schematics workspace already exists.  Follow the "Getting Started" section above to start by creating a Schematics workspace for you infrastructure as code/Terraform templates.
