@@ -83,9 +83,9 @@ stages:
       # force login (required by schematics cli)
       API=$(echo $IDS_URL | cut -d'/' -f3)
       ibmcloud login --apikey $API_KEY -a "https://$API" --no-region
-      echo "ibmcloud terraform plan --id $WORKSPACE_ID"
       
       # run terraform plan
+      echo "ibmcloud terraform plan --id $WORKSPACE_ID"
       ACTIVITY=$(ibmcloud terraform plan -id $WORKSPACE_ID --json)
 
       # get rid of trailing "OK"
@@ -142,9 +142,9 @@ stages:
       API=$(echo $IDS_URL | cut -d'/' -f3)
       ibmcloud login --apikey $API_KEY -a "https://$API" --no-region
 
-      echo "ibmcloud terraform apply --id $WORKSPACE_ID --force"
       
       # run terraform apply
+      echo "ibmcloud terraform apply --id $WORKSPACE_ID --force"
       ACTIVITY=$(ibmcloud terraform apply -id $WORKSPACE_ID --json --force)
 
       # get rid of trailing "OK"
