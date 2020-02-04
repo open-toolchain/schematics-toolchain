@@ -119,7 +119,7 @@ stages:
 
           if [ "$STATUS_VALUE" = "FAILED" ]; then
             exit 1
-          elif [ "$STATUS_VALUE" != "INPROGRESS" && "$STATUS_VALUE" != "CREATED" ]; then  
+          elif [ "$STATUS_VALUE" != "INPROGRESS" ] && [ "$STATUS_VALUE" != "CREATED" ]; then  
             break
           fi
         fi
