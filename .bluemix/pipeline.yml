@@ -25,8 +25,7 @@ stages:
       echo "Workspace $WORKSPACE_ID"
 
       # force login (required by schematics cli)
-      API=$(echo $IDS_URL | cut -d'/' -f3)
-      ibmcloud login --apikey $API_KEY -a "https://$API" --no-region
+      ibmcloud login --apikey $API_KEY -a "https://cloud.ibm.com" --no-region
 
       # get schematics workspace as json
       WORKSPACE=$(ibmcloud terraform workspace get -i $WORKSPACE_ID --json)
@@ -83,8 +82,7 @@ stages:
       #!/bin/bash
 
       # force login (required by schematics cli)
-      API=$(echo $IDS_URL | cut -d'/' -f3)
-      ibmcloud login --apikey $API_KEY -a "https://$API" --no-region
+      ibmcloud login --apikey $API_KEY -a "https://cloud.ibm.com" --no-region
       
       # run terraform plan
       echo "ibmcloud terraform plan --id $WORKSPACE_ID"
@@ -145,8 +143,7 @@ stages:
       #!/bin/bash
 
       # force login (required by schematics cli)
-      API=$(echo $IDS_URL | cut -d'/' -f3)
-      ibmcloud login --apikey $API_KEY -a "https://$API" --no-region
+      ibmcloud login --apikey $API_KEY -a "https://cloud.ibm.com" --no-region
 
       
       # run terraform apply
