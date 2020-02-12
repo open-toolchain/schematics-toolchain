@@ -115,7 +115,8 @@ stages:
           STATUS_VALUE=$(echo $STATUS | jq -r ".status")
           echo "Polling for status: $STATUS_VALUE"
 
-          if [ "$STATUS_VALUE" = "FAILED" ]; then
+          if [ "$STATUS_VALUE" = "FAILED" ]; then 
+            ibmcloud terraform logs --id $WORKSPACE_ID --act-id $ACTIVITY_ID
             exit 1
           elif [ "$STATUS_VALUE" != "INPROGRESS" ] && [ "$STATUS_VALUE" != "CREATED" ]; then  
             break
@@ -178,6 +179,7 @@ stages:
           echo "Polling for status: $STATUS_VALUE"
 
           if [ "$STATUS_VALUE" = "FAILED" ]; then
+            ibmcloud terraform logs --id $WORKSPACE_ID --act-id $ACTIVITY_ID
             exit 1
           elif [ "$STATUS_VALUE" != "INPROGRESS" ]; then  
             break
