@@ -30,11 +30,6 @@ stages:
       # get schematics workspace as json
       WORKSPACE=$(ibmcloud terraform workspace get -i $WORKSPACE_ID --json)
 
-      # get rid of trailing "OK" if found
-      if [[ $WORKSPACE == *OK ]]; then
-        WORKSPACE=${WORKSPACE%??}
-      fi
-
       echo "Updating Schematics workspace from environment variables..."
 
       # iterate over ALL schematics worskpace variables to see if there is a matching env var
@@ -88,11 +83,6 @@ stages:
       echo "ibmcloud terraform plan --id $WORKSPACE_ID"
       ACTIVITY=$(ibmcloud terraform plan -id $WORKSPACE_ID --json)
 
-      # get rid of trailing "OK" if found
-      if [[ $ACTIVITY == *OK ]]; then
-        ACTIVITY=${ACTIVITY%??}
-      fi
-
       ACTIVITY_ID=$(echo $ACTIVITY | jq -r ".activityid")
       echo "Activity ID   $ACTIVITY_ID"
 
@@ -108,10 +98,6 @@ stages:
           exit $RET_VAL
         else
 
-          # get rid of trailing "OK" if found
-          if [[ $STATUS == *OK ]]; then
-            STATUS=${STATUS%??}
-          fi
           STATUS_VALUE=$(echo $STATUS | jq -r ".status")
           echo "Polling for status: $STATUS_VALUE"
 
@@ -151,11 +137,6 @@ stages:
       echo "ibmcloud terraform apply --id $WORKSPACE_ID --force"
       ACTIVITY=$(ibmcloud terraform apply -id $WORKSPACE_ID --json --force)
 
-      # get rid of trailing "OK" if found
-      if [[ $ACTIVITY == *OK ]]; then
-        ACTIVITY=${ACTIVITY%??}
-      fi
-
       ACTIVITY_ID=$(echo $ACTIVITY | jq -r ".activityid")
       echo "Activity ID   $ACTIVITY_ID"
 
@@ -171,10 +152,6 @@ stages:
           exit $RET_VAL
         else
 
-          # get rid of trailing "OK" if found
-          if [[ $STATUS == *OK ]]; then
-            STATUS=${STATUS%??}
-          fi
           STATUS_VALUE=$(echo $STATUS | jq -r ".status")
           echo "Polling for status: $STATUS_VALUE"
 
