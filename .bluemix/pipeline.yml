@@ -24,8 +24,15 @@ stages:
       #!/bin/bash
       echo "Workspace $WORKSPACE_ID"
 
+      REGION="--no-region"
+      # only parse the region if its the *NEW* workspace id format
+      if [[ "$WORKSPACE_ID" == *".workspace"* ]]; then
+          REGION=" -r $(echo $WORKSPACE_ID | cut -f1 -d.)"
+      fi
+      echo "REGION: $REGION"
+
       # force login (required by schematics cli)
-      ibmcloud login --apikey $API_KEY -a "https://cloud.ibm.com" --no-region
+      ibmcloud login --apikey $API_KEY -a "https://cloud.ibm.com" $REGION
 
       # get schematics workspace as json
       WORKSPACE=$(ibmcloud terraform workspace get -i $WORKSPACE_ID --json)
@@ -76,8 +83,15 @@ stages:
     script: |
       #!/bin/bash
 
+      REGION="--no-region"
+      # only parse the region if its the *NEW* workspace id format
+      if [[ "$WORKSPACE_ID" == *".workspace"* ]]; then
+          REGION=" -r $(echo $WORKSPACE_ID | cut -f1 -d.)"
+      fi
+      echo "REGION: $REGION"
+
       # force login (required by schematics cli)
-      ibmcloud login --apikey $API_KEY -a "https://cloud.ibm.com" --no-region
+      ibmcloud login --apikey $API_KEY -a "https://cloud.ibm.com" $REGION
       
       # run terraform plan
       echo "ibmcloud terraform plan --id $WORKSPACE_ID"
@@ -129,8 +143,15 @@ stages:
     script: |
       #!/bin/bash
 
+      REGION="--no-region"
+      # only parse the region if its the *NEW* workspace id format
+      if [[ "$WORKSPACE_ID" == *".workspace"* ]]; then
+          REGION=" -r $(echo $WORKSPACE_ID | cut -f1 -d.)"
+      fi
+      echo "REGION: $REGION"
+
       # force login (required by schematics cli)
-      ibmcloud login --apikey $API_KEY -a "https://cloud.ibm.com" --no-region
+      ibmcloud login --apikey $API_KEY -a "https://cloud.ibm.com" $REGION
 
       
       # run terraform apply
