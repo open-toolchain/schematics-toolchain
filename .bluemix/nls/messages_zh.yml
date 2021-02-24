@@ -1,0 +1,7 @@
+---
+#The format for creating a link with a URL and text is [link text](link url) with no spaces or characters between the two sets of brackets- []()
+template.name: "原理圖基礎架構作為代碼工具鏈"
+deploy.title: "原理圖地形原型"
+deploy.description: "IBM Cloud Schematics的工具鏈模板"
+deploy.apikey: "IBM Cloud API 密钥"
+deploy.workspace-id: "IBM Cloud Schematics工作區標識"

@@ -1,0 +1,7 @@
+---
+#The format for creating a link with a URL and text is [link text](link url) with no spaces or characters between the two sets of brackets- []()
+template.name: "1:Schematics Infrastructure as Code Toolchain"
+deploy.title: "2:Schematics Terraform Prototype"
+deploy.description: "3:Toolchain template for IBM Cloud Schematics"
+deploy.apikey: "4:IBM Cloud API key"
+deploy.workspace-id: "5:IBM Cloud Schematics Workspace ID"
