@@ -49,13 +49,9 @@ services:
       $env.source_provider ? $env.source_provider : 'hostedgit'
     parameters:
       repo_name: "schematics-pipeline"
-      repo_url: >
-        $env.type === 'link' ?
-          $env.pipeline_repo : 'https://github.com/open-toolchain/schematics-toolchain'
-      source_repo_url: >
-        $env.type === 'fork' || $env.type === 'clone' ?
-          $env.pipeline_repo : 'https://github.com/open-toolchain/schematics-toolchain'
-      type: $env.type || 'clone'
+      repo_url: 'https://github.com/open-toolchain/schematics-toolchain'
+      source_repo_url: 'https://github.com/open-toolchain/schematics-toolchain'
+      type: 'clone'
       has_issues: false
       enable_traceability: false
       legal: true
@@ -66,7 +62,7 @@ services:
       repo_name: "tekton-catalog"
       repo_url: 'https://github.com/open-toolchain/tekton-catalog'
       source_repo_url:  'https://github.com/open-toolchain/tekton-catalog'
-      type: 'fork'
+      type: 'link'
       has_issues: false
       enable_traceability: false
       legal: true
