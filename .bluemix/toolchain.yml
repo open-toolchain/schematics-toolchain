@@ -64,11 +64,9 @@ services:
     service_id: githubconsolidated
     parameters:
       repo_name: "tekton-catalog"
-      repo_url: >
-        $env.pipeline_repo ? $env.pipeline_repo : $env.pipelineRepo ? '{{pipelineRepo}}' : 'https://github.com/open-toolchain/tekton-catalog'
-      source_repo_url: >
-        $env.pipeline_repo ? $env.pipeline_repo : $env.pipelineRepo ? '{{pipelineRepo}}' : 'https://github.com/open-toolchain/tekton-catalog'
-      type: $env.type || 'link'
+      repo_url: 'https://github.com/open-toolchain/tekton-catalog'
+      source_repo_url:  'https://github.com/open-toolchain/tekton-catalog'
+      type: 'link'
       has_issues: false
       enable_traceability: false
       legal: true
