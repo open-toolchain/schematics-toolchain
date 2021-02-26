@@ -61,7 +61,7 @@ spec:
         name: pipelinerun-$(uid)
       spec:
         pipelineRef:
-          name: ci-pipeline
+          name: manual-pipeline
         workspaces:
           - name: artifacts
             persistentVolumeClaim:

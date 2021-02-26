@@ -15,7 +15,7 @@ triggers:
         value: ${API_KEY}
       - type: text
         name: tf-dir
-        value: sample
+        value: /
     service: ${terraform-template}
 inputs:
   - type: git
