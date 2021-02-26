@@ -9,6 +9,9 @@
     "description": {
         "$ref": "#/messages/deploy.description"
     },
+    "longDescription": {
+        "$ref": "#/messages/deploy.longDescription"
+    },
     "type": "object",
     "properties": {
         "api-key": {
