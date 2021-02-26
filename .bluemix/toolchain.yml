@@ -1,143 +1,67 @@
-version: 2
+version: '2'
 template:
-  name: "Schematics Infrastructure as Code Tekton Toolchain"
+  name: 'Schematics Infrastructure as Code Toolchain'
   description: "Prototype toolchain templates for IBM Cloud Schematics "
+  icon: icon.svg
   required:
-    - terraform-template
-    - tekton-deploy-pipeline
+    - terraform-apply
+    - terraform-repo
   info:
     #original static git url and branch string definitions
     #git url: >-
     #  [https://github.com/open-toolchain/schematics-toolchain](https://github.com/open-toolchain/schematics-toolchain)
     #git branch: >-
     #  [master](https://github.com/open-toolchain/schematics-toolchain/tree/master)
-
-    # compute the git url and branch values dynamically so that they remain correct when repo is forked etc.
+    
+    # compute the git url and branch values dynamically so that they remain correct when repo is forked etc. 
     # note: `repository` url param must always be provided while the `branch` url param is optional
     # the computed urls are of the same format as the original static urls shown above
     git url: >
-      '[' + $env.repository + '](' + $env.repository + ')'
+        '[' + $env.repository + '](' + $env.repository + ')'
     git branch: >
-      $env.branch ?
-        '[' + $env.branch + ']('+ $env.repository + '/tree/' + $env.branch + ')' :
-        '[master]('+ $env.repository + '/tree/master)'
+        $env.branch ?
+          '[' + $env.branch + ']('+ $env.repository + '/tree/' + $env.branch + ')' :
+          '[master]('+ $env.repository + '/tree/master)'
 toolchain:
-  name: "schematics-pipeline-{{timestamp}}"
+  name: 'schematics-{{timestamp}}'
+  #template:
+  #  getting_started:
+  #    $ref: "#/messages/template.gettingStarted"
 services:
-  devops-insights:
-    service_id: >
-      $env.env_id !== 'ibm:ys1:us-south' ? 'draservicebroker' : ''
-  orion:
-    service_id: orion
-  terraform-template:
+  terraform-repo:
     service_id: >
       $env.source_provider ? $env.source_provider : 'hostedgit'
     parameters:
-      repo_name: "terraform-template-{{timestamp}}"
+      repo_name: '{{toolchain.name}}'
       repo_url: >
-        $env.type === 'link' ?
+        $env.type === 'link' ? 
           $env.app_repo : 'https://github.com/Cloud-Schematics/cluster'
       source_repo_url: >
-        $env.type === 'fork' || $env.type === 'clone' ?
+        $env.type === 'fork' || $env.type === 'clone' ? 
           $env.app_repo : 'https://github.com/Cloud-Schematics/cluster'
-      type: $env.type || 'clone'
+      type: $env.type || 'link'
       has_issues: true
       enable_traceability: true
-      legal: true
-  schematics-pipeline:
-    service_id: >
-      $env.source_provider ? $env.source_provider : 'hostedgit'
-    parameters:
-      repo_name: "schematics-pipeline"
-      repo_url: >
-        $env.type === 'link' ?
-          $env.pipeline_repo : 'https://github.com/open-toolchain/schematics-toolchain'
-      source_repo_url: >
-        $env.type === 'fork' || $env.type === 'clone' ?
-          $env.pipeline_repo : 'https://github.com/open-toolchain/schematics-toolchain'
-      type: $env.type || 'clone'
-      has_issues: false
-      enable_traceability: false
-      legal: true
-      kind: ["pipeline"]
-  tekton-catalog:
-    service_id: githubconsolidated
-    parameters:
-      repo_name: "tekton-catalog"
-      repo_url: >
-        $env.pipeline_repo ? $env.pipeline_repo : $env.pipelineRepo ? '{{pipelineRepo}}' : 'https://github.com/open-toolchain/tekton-catalog'
-      source_repo_url: >
-        $env.pipeline_repo ? $env.pipeline_repo : $env.pipelineRepo ? '{{pipelineRepo}}' : 'https://github.com/open-toolchain/tekton-catalog'
-      type: $env.type || 'link'
-      has_issues: false
-      enable_traceability: false
-      legal: true
-      kind: ["pipeline"]
-  tekton-pr-pipeline:
-    parameters:
-      label: schematics-pipeline
-      type: tekton
-      name: schematics-pr
-      ui_pipeline: true
-      configuration:
-        env:
-          terraform-template: terraform-template
-          schematics-pipeline: schematics-pipeline
-          tekton-catalog: tekton-catalog
-          API_KEY: "{{form.pipeline.parameters.api-key}}"
-          event-listener-name: >
-            if ( $env.source_provider === 'githubconsolidated' ) {
-              'github-pr-listener';
-            } else if ( $env.source_provider === 'bitbucketgit' ) {
-              'bitbucket-pr-listener';
-            } else if ( $env.source_provider === 'github_integrated' ) {
-              'github-ent-pr-listener';
-            } else {
-              'gitlab-pr-listener';
-            }
-        content:
-          $text: pipeline-pr.yml
-        execute: "manual-run"
-      services:
-        - terraform-template
-        - schematics-pipeline
-        - tekton-catalog
-    service_id: >
-      $env.env_id === 'ibm:yp:us-south' ? 'pipeline' : ''
-  tekton-deploy-pipeline:
-    parameters:
-      label: schematics-pipeline
-      type: tekton
-      name: schematics-deploy
-      ui_pipeline: true
-      configuration:
-        env:
-          terraform-template: terraform-template
-          schematics-pipeline: schematics-pipeline
-          tekton-catalog: tekton-catalog
-          API_KEY: "{{form.pipeline.parameters.api-key}}"
-          WORKSPACE_ID: "{{form.pipeline.parameters.workspace-id}}"
-          event-ci-listener-name: >
-            if ( $env.source_provider === 'githubconsolidated' ) {
-              'github-ci-listener';
-            } else if ( $env.source_provider === 'bitbucketgit' ) {
-              'bitbucket-ci-listener';
-            } else if ( $env.source_provider === 'github_integrated' ) {
-              'github-ent-ci-listener';
-            } else {
-              'gitlab-ci-listener';
-            }
-        content:
-          $text: pipeline-deploy.yml
-      services:
-        - terraform-template
-        - schematics-pipeline
-        - tekton-catalog
+  terraform-apply:
     service_id: pipeline
+    parameters:
+      services:
+        - terraform-repo
+      name: 'Schematics Pipeline'
+      ui-pipeline: true
+      configuration:
+        content:
+          $text: pipeline.yml
+        env:
+          TERRAFORM_REPO: terraform-repo
+          WORKSPACE_ID: '{{form.pipeline.parameters.workspace-id}}'
+          API_KEY: '{{form.pipeline.parameters.api-key}}'
+        execute: true
+  webide:
+    service_id: orion
 form:
   pipeline:
     parameters:
-      workspace-id: "{{workspaceId}}"
-      api-key: "{{apiKey}}"
+      workspace-id: '{{workspaceId}}'
     schema:
       $ref: deploy.json
