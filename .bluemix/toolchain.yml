@@ -42,8 +42,31 @@ services:
       type: $env.type || 'link'
       has_issues: true
       enable_traceability: true
-  terraform-apply:
-    service_id: pipeline
+      legal: true
+  schematics-pipeline:
+    service_id: >
+      $env.source_provider ? $env.source_provider : 'hostedgit'
+    parameters:
+      repo_name: "schematics-pipeline"
+      repo_url: 'https://github.com/open-toolchain/schematics-toolchain'
+      source_repo_url: 'https://github.com/open-toolchain/schematics-toolchain'
+      type: 'clone'
+      has_issues: false
+      enable_traceability: false
+      legal: true
+      kind: ["pipeline"]
+  tekton-catalog:
+    service_id: githubconsolidated
+    parameters:
+      repo_name: "tekton-catalog"
+      repo_url: 'https://github.com/open-toolchain/tekton-catalog'
+      source_repo_url:  'https://github.com/open-toolchain/tekton-catalog'
+      type: 'link'
+      has_issues: false
+      enable_traceability: false
+      legal: true
+      kind: ["pipeline"]
+  tekton-pr-pipeline:
     parameters:
       services:
         - terraform-repo
