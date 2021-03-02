@@ -32,7 +32,7 @@ spec:
         name: pipelinerun-$(uid)
       spec:
         pipelineRef:
-          name: manual-pipeline
+          name: deploy-pipeline
         workspaces:
           - name: artifacts
             persistentVolumeClaim:

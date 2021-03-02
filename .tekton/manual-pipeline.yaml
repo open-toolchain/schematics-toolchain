@@ -2,7 +2,7 @@
 apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
-  name: manual-pipeline
+  name: deploy-pipeline
 spec:
   params:
     - name: WORKSPACE_ID
