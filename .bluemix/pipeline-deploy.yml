@@ -10,11 +10,11 @@ triggers:
     name: Manual Trigger - 0
     eventListener: manual-trigger-listener
   - type: git
-    branch: main
-    events: { "push": true }
-    name: Git Trigger - Commit
-    eventListener: ${event-ci-listener-name}
+    name: commit-push
+    eventListener: ${GIT_COMMIT_EVENT_LISTENER_NAME}
     service: ${terraform-template}
+    branch: master
+    events: { "push": true }
 inputs:
   - type: git
     path: .tekton

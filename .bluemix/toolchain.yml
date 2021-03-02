@@ -49,9 +49,9 @@ services:
       $env.source_provider ? $env.source_provider : 'hostedgit'
     parameters:
       repo_name: "schematics-pipeline"
-      repo_url: 'https://github.com/open-toolchain/schematics-toolchain'
-      source_repo_url: 'https://github.com/open-toolchain/schematics-toolchain'
-      type: 'clone'
+      repo_url: "https://github.com/open-toolchain/schematics-toolchain"
+      source_repo_url: "https://github.com/open-toolchain/schematics-toolchain"
+      type: "clone"
       has_issues: false
       enable_traceability: false
       legal: true
@@ -60,16 +60,16 @@ services:
     service_id: githubconsolidated
     parameters:
       repo_name: "tekton-catalog"
-      repo_url: 'https://github.com/open-toolchain/tekton-catalog'
-      source_repo_url:  'https://github.com/open-toolchain/tekton-catalog'
-      type: 'link'
+      repo_url: "https://github.com/open-toolchain/tekton-catalog"
+      source_repo_url: "https://github.com/open-toolchain/tekton-catalog"
+      type: "link"
       has_issues: false
       enable_traceability: false
       legal: true
       kind: ["pipeline"]
   tekton-pr-pipeline:
     parameters:
-      label: schematics-pipeline
+      label: schematics-ws-pipeline
       type: tekton
       name: schematics-pr
       ui_pipeline: true
@@ -79,11 +79,13 @@ services:
           schematics-pipeline: schematics-pipeline
           tekton-catalog: tekton-catalog
           API_KEY: "{{form.pipeline.parameters.api-key}}"
-          event-listener-name: >
+          GIT_COMMIT_EVENT_LISTENER_NAME: >
             if ( $env.source_provider === 'githubconsolidated' ) {
               'github-pr-listener';
+            } else if ( $env.source_provider === 'gitlab' ) {
+              'gitlab-pr-listener';
             } else if ( $env.source_provider === 'bitbucketgit' ) {
-              'bitbucket-pr-listener';
+              'bitbucket-commit';
             } else if ( $env.source_provider === 'github_integrated' ) {
               'github-ent-pr-listener';
             } else {
@@ -91,7 +93,6 @@ services:
             }
         content:
           $text: pipeline-pr.yml
-        execute: "manual-run"
       services:
         - terraform-template
         - schematics-pipeline
@@ -111,7 +112,7 @@ services:
           tekton-catalog: tekton-catalog
           API_KEY: "{{form.pipeline.parameters.api-key}}"
           WORKSPACE_ID: "{{form.pipeline.parameters.workspace-id}}"
-          event-ci-listener-name: >
+          GIT_COMMIT_EVENT_LISTENER_NAME: >
             if ( $env.source_provider === 'githubconsolidated' ) {
               'github-ci-listener';
             } else if ( $env.source_provider === 'bitbucketgit' ) {

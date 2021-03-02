@@ -4,11 +4,12 @@ properties:
     value: ${API_KEY}
 triggers:
   - type: git
-    branch: main
+    name: Git PR Trigger
+    service: ${terraform-template}
+    branch: master
     events:
       pull_request: true
-    name: Git Trigger - 0
-    eventListener: ${event-listener-name}
+    eventListener: ${GIT_COMMIT_EVENT_LISTENER_NAME}
     properties:
       - type: secure
         name: TF_VAR_ibmcloud_api_key
