@@ -1,0 +1,22 @@
+properties:
+  - type: text
+    name: WORKSPACE_ID
+    value: ${WORKSPACE_ID}
+  - type: secure
+    name: apikey
+    value: ${API_KEY}
+triggers:
+  - type: manual
+    name: Manual Trigger - 0
+    eventListener: manual-trigger-listener
+  - type: git
+    branch: master
+    events: { "push": true }
+    name: Git Trigger - Commit
+    eventListener: ${event-ci-listener-name}
+    service: ${terraform-template}
+inputs:
+  - type: git
+    path: .tekton
+    branch: master
+    service: ${schematics-pipeline}
