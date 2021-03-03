@@ -8,7 +8,7 @@ spec:
       mountPath: /artifacts
   steps:
     - name: check-health
-      image: ibmcom/pipeline-base-image:2.6
+      image: ibmcom/pipeline-base-image:2.11
       command: ["/bin/bash", "-c"]
       args:
         - echo "You can add tests here to ensure that your resources are healthy!"
