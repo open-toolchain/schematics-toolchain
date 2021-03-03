@@ -1,18 +1,32 @@
 {
     "$schema": "http://json-schema.org/draft-04/schema#",
-    "title": "Schematics Terraform Prototype",
-    "description": "Toolchain template for IBM Cloud Schematics",
+    "messages": {
+        "$i18n": "locales.yml"
+    },
+    "title": {
+        "$ref": "#/messages/deploy.title"
+    },
+    "description": {
+        "$ref": "#/messages/deploy.description"
+    },
+    "longDescription": {
+        "$ref": "#/messages/deploy.longDescription"
+    },
     "type": "object",
     "properties": {
         "api-key": {
-            "description": "IBM Cloud API Key",
+            "description": {
+                "$ref": "#/messages/deploy.apikey"
+            },
             "type": "string",
             "validator": {
                 "v-type": "api-key"
             }
         },
         "workspace-id": {
-            "description": "IBM Cloud Schematics Workspace ID",
+            "description": {
+                "$ref": "#/messages/deploy.workspace-id"
+            },
             "type": "string"
         }
     },
@@ -33,7 +47,9 @@
         {
             "type": "password",
             "readonly": false,
-            "title": "IBM Cloud API Key",
+            "title": {
+                "$ref": "#/messages/deploy.apikey"
+            },
             "key": "api-key"
         }
     ]
