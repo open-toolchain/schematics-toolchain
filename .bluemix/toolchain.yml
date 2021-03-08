@@ -96,7 +96,7 @@ services:
         - schematics-pipeline
         - tekton-catalog
     service_id: >
-      $env.env_id === 'ibm:yp:us-south' ? 'pipeline' : ''
+      $env.env_id === 'ibm:yp:us-south' || $env.env_id === 'ibm:yp:us-east' ? 'pipeline' : ''
   tekton-deploy-pipeline:
     parameters:
       label: schematics-pipeline
