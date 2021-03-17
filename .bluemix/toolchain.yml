@@ -127,6 +127,17 @@ services:
         - schematics-pipeline
         - tekton-catalog
     service_id: pipeline
+  schematics:
+    service_id: customtool
+    parameters:
+      type: Schematics
+      lifecyclePhase: "MANAGE"
+      imageUrl: "https://cloud.ibm.com/schematics/img/schematics-icon-f5c6503990.svg"
+      documentationUrl: "https://cloud.ibm.com/docs/schematics?topic=schematics-about-schematics"
+      name: "IBM Cloud Schematics"
+      dashboard_url: "/schematics/workspaces/{{form.pipeline.parameters.workspace-id}}"
+      description: "Terraform-as-a-Service"
+      additional-properties:  
 form:
   pipeline:
     parameters:
