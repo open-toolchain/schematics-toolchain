@@ -134,7 +134,7 @@ services:
       lifecyclePhase: "MANAGE"
       imageUrl: "https://cloud.ibm.com/schematics/img/schematics-icon-f5c6503990.svg"
       documentationUrl: "https://cloud.ibm.com/docs/schematics?topic=schematics-about-schematics"
-      name: "IBM Cloud Schematics"
+      name: "IBM Cloud Schematics workspace"
       dashboard_url: "/schematics/workspaces/{{form.pipeline.parameters.workspace-id}}"
       description: "Terraform-as-a-Service"
       additional-properties:  
