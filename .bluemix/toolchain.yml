@@ -97,17 +97,7 @@ services:
         - schematics-pipeline
         - tekton-catalog
     service_id: >
-      if ( $env.env_id === 'ibm:yp:us-south' ) {
-        'pipeline';
-      } else if ( $env.env_id === 'ibm:yp:us-east' ) {
-        'pipeline';
-      } else if ( $env.env_id === 'ibm:yp:au-syd' ) {
-        'pipeline';
-      } else if ( $env.env_id === 'ibm:yp:jp-osa' ) {
-        'pipeline';
-      } else if ( $env.env_id === 'ibm:yp:ca-tor' ) {
-        'pipeline';
-      } else if ( $env.env_id === 'ibm:yp:jp-tok' ) {
+      if ( ( $env.env_id === 'ibm:yp:us-south' ) || ( $env.env_id === 'ibm:yp:us-east' ) || ( $env.env_id === 'ibm:yp:au-syd' ) || ( $env.env_id === 'ibm:yp:jp-osa' ) || ( $env.env_id === 'ibm:yp:ca-tor' ) || ( $env.env_id === 'ibm:yp:jp-tok' ) ) {
         'pipeline';
       } else {
         '';
