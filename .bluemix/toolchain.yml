@@ -97,7 +97,7 @@ services:
         - schematics-pipeline
         - tekton-catalog
     service_id: >
-      if ( ( $env.env_id !== 'ibm:yp:eu-fr2' ) {
+      if ( $env.env_id !== 'ibm:yp:eu-fr2' ) {
         'pipeline';
       } else {
         '';
