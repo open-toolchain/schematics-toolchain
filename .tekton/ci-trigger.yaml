@@ -36,6 +36,9 @@ spec:
       default: ""
     - name: WORKSPACE_ID
       description: The workspace id
+    - name: enable-automatic-plan-apply
+      description: if true, a plan and apply will be automatically executed upon changes to the template code
+      default: "true"
   resourcetemplates:
     - apiVersion: v1
       kind: PersistentVolumeClaim
@@ -91,3 +94,7 @@ spec:
             value: $(params.tf-var-file)
           - name: WORKSPACE_ID
             value: $(params.WORKSPACE_ID)
+          - name: apikey
+            value: $(params.apikey)
+          - name: enable-automatic-plan-apply
+            value: $(params.enable-automatic-plan-apply)

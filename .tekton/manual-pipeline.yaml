@@ -7,6 +7,13 @@ spec:
   params:
     - name: WORKSPACE_ID
       description: workspace id
+    - name: ibmcloud-api
+      description: the ibmcloud api
+      default: https://cloud.ibm.com
+    - name: apikey
+      description: the IBM Cloud API key
+    - name: enable-automatic-plan-apply
+      description: if true, a plan and apply will be automatically executed upon changes to the template code
   workspaces:
     - name: artifacts
   tasks:
@@ -19,6 +26,12 @@ spec:
       params:
         - name: WORKSPACE_ID
           value: $(params.WORKSPACE_ID)
+        - name: ibmcloud-api
+          value: $(params.ibmcloud-api)
+        - name: apikey
+          value: $(params.apikey)
+        - name: enable-automatic-plan-apply
+          value: $(params.enable-automatic-plan-apply)
     - name: plan
       runAfter: [update-workspace]
       taskRef:
@@ -29,6 +42,12 @@ spec:
       params:
         - name: WORKSPACE_ID
           value: $(params.WORKSPACE_ID)
+        - name: ibmcloud-api
+          value: $(params.ibmcloud-api)
+        - name: apikey
+          value: $(params.apikey)
+        - name: enable-automatic-plan-apply
+          value: $(params.enable-automatic-plan-apply)
     - name: apply
       runAfter: [plan]
       taskRef:
@@ -39,6 +58,12 @@ spec:
       params:
         - name: WORKSPACE_ID
           value: $(params.WORKSPACE_ID)
+        - name: ibmcloud-api
+          value: $(params.ibmcloud-api)
+        - name: apikey
+          value: $(params.apikey)
+        - name: enable-automatic-plan-apply
+          value: $(params.enable-automatic-plan-apply)
     - name: test
       runAfter: [apply]
       workspaces:
@@ -46,3 +71,12 @@ spec:
           workspace: artifacts
       taskRef:
         name: test-task
+      params:
+        - name: WORKSPACE_ID
+          value: $(params.WORKSPACE_ID)
+        - name: ibmcloud-api
+          value: $(params.ibmcloud-api)
+        - name: apikey
+          value: $(params.apikey)
+        - name: enable-automatic-plan-apply
+          value: $(params.enable-automatic-plan-apply)

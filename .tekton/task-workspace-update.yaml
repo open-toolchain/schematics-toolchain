@@ -12,6 +12,13 @@ spec:
       default: "secure-properties"
     - name: WORKSPACE_ID
       description: the workspace id
+    - name: ibmcloud-api
+      description: the ibmcloud api
+      default: https://cloud.ibm.com
+    - name: apikey
+      description: the ibmcloud api key
+    - name: enable-automatic-plan-apply
+      description: if true, a plan and apply will be automatically executed upon changes to the template code
   workspaces:
     - name: artifacts
       mountPath: /artifacts
@@ -32,10 +39,20 @@ spec:
               optional: true
         - name: WORKSPACE_ID
           value: $(params.WORKSPACE_ID)
+        - name: IBM_CLOUD_API
+          value: $(params.ibmcloud-api)
+        - name: ENABLE_PLAN_APPLY
+          value: $(params.enable-automatic-plan-apply)
       command: ["/bin/bash", "-c"]
       args:
         - |
           #!/bin/bash
+
+          if [ "$ENABLE_PLAN_APPLY" != "true" ]; then
+            echo "Automatic plan and apply have been disabled. Re-enable by setting the enable-automatic-plan-apply environment property to true."
+            exit 0
+          fi
+          
           echo "Workspace $WORKSPACE_ID"
 
           REGION="--no-region"
@@ -46,7 +63,7 @@ spec:
           echo "REGION: $REGION"
 
           # force login (required by schematics cli)
-          ibmcloud login --apikey $API_KEY -a "https://cloud.ibm.com" $REGION
+          ibmcloud login --apikey $API_KEY -a "$IBM_CLOUD_API" $REGION
           # get schematics workspace as json
           WORKSPACE=$(ibmcloud terraform workspace get -i $WORKSPACE_ID --json)
           echo "Updating Schematics workspace from environment variables..."

@@ -3,12 +3,29 @@ kind: Task
 metadata:
   name: test-task
 spec:
+  params:
+    - name: WORKSPACE_ID
+      description: The workspace id
+    - name: ibmcloud-api
+      description: the ibmcloud api
+      default: https://cloud.ibm.com
+    - name: apikey
+      description: the ibmcloud api key
+    - name: enable-automatic-plan-apply
+      description: if true, a plan and apply will be automatically executed upon changes to the template code
   workspaces:
     - name: artifacts
       mountPath: /artifacts
   steps:
     - name: check-health
       image: ibmcom/pipeline-base-image:2.11
+      env:
+        - name: WORKSPACE_ID
+          value: $(params.WORKSPACE_ID)
+        - name: IBM_CLOUD_API
+          value: $(params.ibmcloud-api)
+        - name: ENABLE_PLAN_APPLY
+          value: $(params.enable-automatic-plan-apply)
       command: ["/bin/bash", "-c"]
       args:
         - echo "You can add tests here to ensure that your resources are healthy!"

@@ -21,8 +21,11 @@ template:
       $env.branch ?
         '[' + $env.branch + ']('+ $env.repository + '/tree/' + $env.branch + ')' :
         '[master]('+ $env.repository + '/tree/master)'
+    # set to mon01 to test in staging GRIT
+    hosted_region: ""
 toolchain:
-  name: "schematics-pipeline-{{timestamp}}"
+  name: >
+    $env.toolchainName ? '{{toolchainName}}' : 'schematics-ws-{{workspaceId}}-toolchain-{{timestamp}}'
 services:
   devops-insights:
     service_id: >
@@ -33,7 +36,8 @@ services:
     service_id: >
       $env.source_provider ? $env.source_provider : 'hostedgit'
     parameters:
-      repo_name: "terraform-template-{{timestamp}}"
+      repo_name: >
+        $env.templateRepoName ? '{{templateRepoName}}' : 'schematics-ws-{{workspaceId}}-{{timestamp}}'
       repo_url: >
         $env.type === 'link' ?
           $env.app_repo : 'https://github.com/Cloud-Schematics/cluster'
@@ -48,9 +52,19 @@ services:
     service_id: >
       $env.source_provider ? $env.source_provider : 'hostedgit'
     parameters:
-      repo_name: "schematics-pipeline"
-      repo_url: "https://github.com/open-toolchain/schematics-toolchain"
-      source_repo_url: "https://github.com/open-toolchain/schematics-toolchain"
+      repo_name: "schematics-pipeline-{{timestamp}}"
+      repo_url: >
+        if ( $env.template.info.hosted_region !== "" ) {
+          "https://{{template.info.hosted_region}}.git.cloud.ibm.com/open-toolchain/schematics-toolchain"
+        } else {
+          "https://github.com/open-toolchain/schematics-toolchain"
+        }
+      source_repo_url: >
+        if ( $env.template.info.hosted_region !== "" ) {
+          "https://{{template.info.hosted_region}}.git.cloud.ibm.com/open-toolchain/schematics-toolchain"
+        } else {
+          "https://github.com/open-toolchain/schematics-toolchain"
+        }
       type: "clone"
       has_issues: false
       enable_traceability: false
@@ -61,8 +75,18 @@ services:
       $env.source_provider ? $env.source_provider : 'hostedgit'
     parameters:
       repo_name: "tekton-catalog-{{timestamp}}"
-      repo_url: "https://github.com/open-toolchain/tekton-catalog"
-      source_repo_url: "https://github.com/open-toolchain/tekton-catalog"
+      repo_url: >
+        if ( $env.template.info.hosted_region !== "" ) {
+          "https://{{template.info.hosted_region}}.git.cloud.ibm.com/open-toolchain/tekton-catalog"
+        } else {
+          "https://github.com/open-toolchain/tekton-catalog"
+        }
+      source_repo_url: >
+        if ( $env.template.info.hosted_region !== "" ) {
+          "https://{{template.info.hosted_region}}.git.cloud.ibm.com/open-toolchain/tekton-catalog"
+        } else {
+          "https://github.com/open-toolchain/tekton-catalog"
+        }
       type: "clone"
       has_issues: false
       enable_traceability: false
@@ -79,7 +103,24 @@ services:
           terraform-template: terraform-template
           schematics-pipeline: schematics-pipeline
           tekton-catalog: tekton-catalog
+          CATALOG_BRANCH: >
+            $env.catalogBranch ? $env.catalogBranch : 
+            $env.template.info.hosted_region !== "" ? 'main': 'master'
+          TEMPLATE_BRANCH: >
+            $env.branch ? $env.branch : 
+            $env.template.info.hosted_region !== "" ? 'main': 'master'
+          APP_BRANCH: >
+            $env.appBranch ? $env.appBranch : 
+            $env.template.info.hosted_region !== "" ? 'main': 'master'
+          IBM_CLOUD_API: >
+            $env.ibmcloudApi ? '{{ibmcloudApi}}' : "https://cloud.ibm.com"
           API_KEY: "{{form.pipeline.parameters.api-key}}"
+          ENABLE_PLAN_APPLY: >
+            if ( $env.solutionsBuilder === 'enabled' ) {
+              'false';
+            } else {
+              'true';
+            }
           event-listener-name: >
             if ( $env.source_provider === 'githubconsolidated' ) {
               'github-pr-listener';
@@ -96,12 +137,7 @@ services:
         - terraform-template
         - schematics-pipeline
         - tekton-catalog
-    service_id: >
-      if ( $env.env_id !== 'ibm:yp:eu-fr2' ) {
-        'pipeline';
-      } else {
-        '';
-      }
+    service_id: pipeline
   tekton-deploy-pipeline:
     parameters:
       label: schematics-pipeline
@@ -113,8 +149,25 @@ services:
           terraform-template: terraform-template
           schematics-pipeline: schematics-pipeline
           tekton-catalog: tekton-catalog
+          CATALOG_BRANCH: >
+            $env.catalogBranch ? $env.catalogBranch : 
+            $env.template.info.hosted_region !== "" ? 'main': 'master'
+          TEMPLATE_BRANCH: >
+            $env.branch ? $env.branch : 
+            $env.template.info.hosted_region !== "" ? 'main': 'master'
+          APP_BRANCH: >
+            $env.appBranch ? $env.appBranch : 
+            $env.template.info.hosted_region !== "" ? 'main': 'master'
+          IBM_CLOUD_API: >
+            $env.ibmcloudApi ? '{{ibmcloudApi}}' : "https://cloud.ibm.com"
           API_KEY: "{{form.pipeline.parameters.api-key}}"
           WORKSPACE_ID: "{{form.pipeline.parameters.workspace-id}}"
+          ENABLE_PLAN_APPLY: >
+            if ( $env.solutionsBuilder === 'enabled' ) {
+              'false';
+            } else {
+              'true';
+            }
           event-ci-listener-name: >
             if ( $env.source_provider === 'githubconsolidated' ) {
               'github-ci-listener';
@@ -132,6 +185,44 @@ services:
         - schematics-pipeline
         - tekton-catalog
     service_id: pipeline
+  template-download-pipeline:
+    parameters:
+      label: template-download-pipeline
+      type: tekton
+      name: template-download
+      ui_pipeline: true
+      configuration:
+        env:
+          terraform-template: terraform-template
+          schematics-pipeline: schematics-pipeline
+          tekton-catalog: tekton-catalog
+          CATALOG_BRANCH: >
+            $env.catalogBranch ? $env.catalogBranch : 
+            $env.template.info.hosted_region !== "" ? 'main': 'master'
+          TEMPLATE_BRANCH: >
+            $env.branch ? $env.branch : 
+            $env.template.info.hosted_region !== "" ? 'main': 'master'
+          IBM_CLOUD_API: >
+            $env.ibmcloudApi ? '{{ibmcloudApi}}' : "https://cloud.ibm.com"
+          API_KEY: "{{form.pipeline.parameters.api-key}}"
+          WORKSPACE_ID: "{{form.pipeline.parameters.workspace-id}}"
+          TERRAFORM_REQUEST: "{{form.pipeline.parameters.terraform-request}}"
+          CONSOLE_SOLUTIONS_API: >
+            $env.consoleSolutionsApi ? '{{consoleSolutionsApi}}' : "https://cloud.ibm.com/solutions-api/v1"
+        content:
+          $text: pipeline-template-download.yml
+        execute: >
+          $env.solutionsBuilder === 'enabled' ? 'template-download-manual-trigger' : ''
+      services:
+        - terraform-template
+        - schematics-pipeline
+        - tekton-catalog
+    service_id: >
+      if ( $env.solutionsBuilder === 'enabled' ) {
+        'pipeline';
+      } else {
+        '';
+      }
   schematics:
     service_id: customtool
     parameters:
@@ -147,6 +238,9 @@ form:
   pipeline:
     parameters:
       workspace-id: "{{workspaceId}}"
+      terraform-request: >
+        $env.terraformRequest ? '{{terraformRequest}}' : ''
       api-key: "{{apiKey}}"
+      console-solutions-api: "{{consoleSolutionsApi}}"
     schema:
       $ref: deploy.json

@@ -5,12 +5,23 @@ properties:
   - type: secure
     name: apikey
     value: ${API_KEY}
+  - type: text
+    name: ibmcloud-api
+    value: ${IBM_CLOUD_API}
+  - type: text
+    name: enable-automatic-plan-apply
+    value: ${ENABLE_PLAN_APPLY}
+  - name: pipeline-debug
+    type: single_select
+    value:
+      "0": true
+      "1": false
 triggers:
   - type: manual
     name: Manual Trigger - 0
     eventListener: manual-trigger-listener
   - type: git
-    branch: master
+    pattern: ${APP_BRANCH}
     events: { "push": true }
     name: Git Trigger - Commit
     eventListener: ${event-ci-listener-name}
@@ -18,5 +29,5 @@ triggers:
 inputs:
   - type: git
     path: .tekton
-    branch: master
+    branch: ${TEMPLATE_BRANCH}
     service: ${schematics-pipeline}

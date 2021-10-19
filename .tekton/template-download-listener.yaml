@@ -1,0 +1,11 @@
+---
+apiVersion: tekton.dev/v1beta1
+kind: EventListener
+metadata:
+  name: template-download-trigger-listener
+spec:
+  triggers:
+    - binding:
+        name: template-download-trigger-binding
+      template:
+        name: template-download-template
