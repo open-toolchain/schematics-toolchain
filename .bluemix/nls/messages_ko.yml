@@ -1,6 +1,7 @@
 ---
 #The format for creating a link with a URL and text is [link text](link url) with no spaces or characters between the two sets of brackets- []()
 template.name: "코드 Tekton 도구 체인으로서의 Schematics 인프라"
+template.description: "Prototype toolchain templates for IBM Cloud Schematics"
 deploy.title: "Schematics Terraform 프로토타입"
 deploy.description: "IBM Cloud Schematics용 도구 체인 템플리트"
 deploy.longDescription: "Delivery Pipeline은 작업공간의 지속적 빌드, 적용 및 테스트를 자동화합니다."

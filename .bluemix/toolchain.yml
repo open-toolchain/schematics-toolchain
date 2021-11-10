@@ -1,7 +1,11 @@
 version: 2
+messages:
+  $i18n: locales.yml
 template:
-  name: "Schematics Infrastructure as Code Tekton Toolchain"
-  description: "Prototype toolchain templates for IBM Cloud Schematics "
+  name:
+    $ref: "#/messages/template.name"
+  description:
+    $ref: "#/messages/template.description"
   required:
     - terraform-template
     - tekton-deploy-pipeline
