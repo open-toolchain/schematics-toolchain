@@ -46,8 +46,9 @@ services:
         $env.type === 'link' ?
           $env.app_repo : 'https://github.com/Cloud-Schematics/cluster'
       source_repo_url: >
-        $env.type === 'fork' || $env.type === 'clone' ?
-          $env.app_repo : 'https://github.com/Cloud-Schematics/cluster'
+        $env.type === 'fork' || $env.type === 'clone' ? $env.app_repo : 
+          $env.templateEncodedZip ? '{{templateEncodedZip}}' : 
+          'https://github.com/Cloud-Schematics/cluster'
       type: $env.type || 'clone'
       has_issues: true
       enable_traceability: true
@@ -189,44 +190,6 @@ services:
         - schematics-pipeline
         - tekton-catalog
     service_id: pipeline
-  template-download-pipeline:
-    parameters:
-      label: template-download-pipeline
-      type: tekton
-      name: template-download
-      ui_pipeline: true
-      configuration:
-        env:
-          terraform-template: terraform-template
-          schematics-pipeline: schematics-pipeline
-          tekton-catalog: tekton-catalog
-          CATALOG_BRANCH: >
-            $env.catalogBranch ? $env.catalogBranch : 
-            $env.template.info.hosted_region !== "" ? 'main': 'master'
-          TEMPLATE_BRANCH: >
-            $env.branch ? $env.branch : 
-            $env.template.info.hosted_region !== "" ? 'main': 'master'
-          IBM_CLOUD_API: >
-            $env.ibmcloudApi ? '{{ibmcloudApi}}' : "https://cloud.ibm.com"
-          API_KEY: "{{form.pipeline.parameters.api-key}}"
-          WORKSPACE_ID: "{{form.pipeline.parameters.workspace-id}}"
-          TERRAFORM_REQUEST: "{{form.pipeline.parameters.terraform-request}}"
-          CONSOLE_SOLUTIONS_API: >
-            $env.consoleSolutionsApi ? '{{consoleSolutionsApi}}' : "https://cloud.ibm.com/solutions-api/v1"
-        content:
-          $text: pipeline-template-download.yml
-        execute: >
-          $env.solutionsBuilder === 'enabled' ? 'template-download-manual-trigger' : ''
-      services:
-        - terraform-template
-        - schematics-pipeline
-        - tekton-catalog
-    service_id: >
-      if ( $env.solutionsBuilder === 'enabled' ) {
-        'pipeline';
-      } else {
-        '';
-      }
   schematics:
     service_id: customtool
     parameters:
@@ -242,8 +205,6 @@ form:
   pipeline:
     parameters:
       workspace-id: "{{workspaceId}}"
-      terraform-request: >
-        $env.terraformRequest ? '{{terraformRequest}}' : ''
       api-key: "{{apiKey}}"
       console-solutions-api: "{{consoleSolutionsApi}}"
     schema:

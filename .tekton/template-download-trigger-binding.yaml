@@ -1,5 +1,0 @@
----
-apiVersion: tekton.dev/v1beta1
-kind: TriggerBinding
-metadata:
-  name: template-download-trigger-binding
