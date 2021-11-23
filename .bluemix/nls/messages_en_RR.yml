@@ -1,9 +1,9 @@
 ---
 #The format for creating a link with a URL and text is [link text](link url) with no spaces or characters between the two sets of brackets- []()
-template.name: "Schematics Infrastructure as Code Tekton Toolchain~otc-ui2005"
-template.description: "Prototype toolchain templates for IBM Cloud Schematics"
-deploy.title: "Schematics Terraform Prototype~otc-ui2006"
-deploy.description: "Toolchain template for IBM Cloud Schematics~otc-ui2007"
-deploy.longDescription: "The Delivery Pipeline automates continuous build, apply and test of a workspace.~otc-ui2008"
-deploy.apikey: "IBM Cloud API key~otc-ui2009"
-deploy.workspace-id: "IBM Cloud Schematics Workspace ID~otc-ui2010"
+template.name: "Schematics Infrastructure as Code Tekton Toolchain~otc-ui2039"
+template.description: "Prototype toolchain templates for IBM Cloud Schematics~otc-ui2040"
+deploy.title: "Schematics Terraform Prototype~otc-ui2041"
+deploy.description: "Toolchain template for IBM Cloud Schematics~otc-ui2042"
+deploy.longDescription: "The Delivery Pipeline automates continuous build, apply and test of a workspace.~otc-ui2043"
+deploy.apikey: "IBM Cloud API key~otc-ui2044"
+deploy.workspace-id: "IBM Cloud Schematics Workspace ID~otc-ui2045"
