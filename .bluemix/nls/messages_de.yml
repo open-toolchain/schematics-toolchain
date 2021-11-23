@@ -7,3 +7,4 @@ deploy.description: "Toolchain-Schablone für IBM Cloud Schematics"
 deploy.longDescription: "Mit der Delivery Pipeline werden die kontinuierliche Builderstellung, die Anwendung und der Test eines Arbeitsbereichs automatisiert."
 deploy.apikey: "IBM Cloud-API-Schlüssel"
 deploy.workspace-id: "ID des IBM Cloud Schematics-Arbeitsbereichs"
+...
