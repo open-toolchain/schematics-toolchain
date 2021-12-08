@@ -41,7 +41,9 @@
         {
             "type": "text",
             "readonly": false,
-            "title": "Workspace Id",
+            "title": {
+                "$ref": "#/messages/deploy.workspace-id-title"
+            },
             "key": "workspace-id"
         },
         {
