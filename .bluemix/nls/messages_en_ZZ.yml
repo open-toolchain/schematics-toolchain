@@ -7,3 +7,4 @@ deploy.description: "[G'Ｔｏｏｌｃｈａｉｎ ｔｅmplate for IBM Cloud S
 deploy.longDescription: "[G'Ｔｈｅ Ｄｅｌｉｖｅｒｙ Ｐｉｐｅline automates continuous build, apply and test of a workspace.ฏูİı｜]"
 deploy.apikey: "[G'ＩＢＭ Ｃｌoud API keyฏูİı｜]"
 deploy.workspace-id: "[G'ＩＢＭ Ｃｌｏｕｄ Ｓｃhematics Workspace IDฏูİı｜]"
+deploy.workspace-id-title: "Workspace Id"

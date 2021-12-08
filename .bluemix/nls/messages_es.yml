@@ -7,4 +7,5 @@ deploy.description: "Plantilla de cadena de herramientas para IBM Cloud Schemati
 deploy.longDescription: "Delivery Pipeline automatiza la compilación, aplicación y prueba continuas de un espacio de trabajo."
 deploy.apikey: "Clave de API de IBM Cloud"
 deploy.workspace-id: "ID de espacio de trabajo de IBM Cloud Schematics"
+deploy.workspace-id-title: "Workspace Id"
 ...
