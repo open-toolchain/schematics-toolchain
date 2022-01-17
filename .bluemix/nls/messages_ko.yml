@@ -7,5 +7,5 @@ deploy.description: "IBM Cloud Schematics용 도구 체인 템플리트"
 deploy.longDescription: "Delivery Pipeline은 작업공간의 지속적 빌드, 적용 및 테스트를 자동화합니다."
 deploy.apikey: "IBM Cloud API 키"
 deploy.workspace-id: "IBM Cloud Schematics 작업공간 ID"
-deploy.workspace-id-title: "Workspace Id"
+deploy.workspace-id-title: "작업공간 ID"
 ...

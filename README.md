@@ -129,3 +129,4 @@ The following inputs are coming from tekton annotation:
 
 - **status**: status of cra terraform scan task, possible value are-success|failure
 - **evidence-store**: filepath to store terraform scan task evidence 
+
