@@ -24,7 +24,7 @@ spec:
       mountPath: /artifacts
   steps:
     - name: update-workspace
-      image: ibmcom/pipeline-base-image:2.11
+      image: icr.io/continuous-delivery/pipeline/pipeline-base-image:2.11
       envFrom:
         - configMapRef:
             name: environment-properties

@@ -18,7 +18,7 @@ spec:
       mountPath: /artifacts
   steps:
     - name: check-health
-      image: ibmcom/pipeline-base-image:2.11
+      image: icr.io/continuous-delivery/pipeline/pipeline-base-image:2.11
       env:
         - name: WORKSPACE_ID
           value: $(params.WORKSPACE_ID)
