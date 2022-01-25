@@ -34,8 +34,6 @@ services:
   devops-insights:
     service_id: >
       $env.env_id !== 'ibm:ys1:us-south' ? 'draservicebroker' : ''
-  orion:
-    service_id: orion
   terraform-template:
     service_id: >
       $env.source_provider ? $env.source_provider : 'hostedgit'
