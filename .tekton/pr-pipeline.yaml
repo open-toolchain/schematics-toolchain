@@ -43,8 +43,6 @@ spec:
       default: ""
     - name: WORKSPACE_ID
       description: workspace id
-    - name: enable-automatic-plan-apply
-      description: if true, a plan and apply will be automatically executed upon changes to the template code
   workspaces:
     - name: artifacts
   tasks:
