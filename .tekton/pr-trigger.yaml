@@ -44,6 +44,9 @@ spec:
       description: Configure policies to control thresholds
     - name: tf-var-file
       description: (optional) terraform var-file
+    - name: enable-automatic-plan-apply
+      description: if true, a plan and apply will be automatically executed upon changes to the template code
+      default: "true"
   resourcetemplates:
     - apiVersion: v1
       kind: PersistentVolumeClaim
@@ -105,3 +108,6 @@ spec:
             value: $(params.policy-config-json)
           - name: tf-var-file
             value: $(params.tf-var-file)
+          - name: enable-automatic-plan-apply
+            value: $(params.enable-automatic-plan-apply)
+
