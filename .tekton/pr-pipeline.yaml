@@ -47,8 +47,6 @@ spec:
       description: (Optional) A custom script to be ran prior to CRA scanning
     - name: ibmcloud-trace
       description: (Optional) Enables IBMCLOUD_TRACE for ibmcloud cli logging
-    - name: verbose
-      description: (Optional) Enables IBMCLOUD_TRACE for ibmcloud cli logging
     - name: output
       description: (Optional) Prints command result to console
     - name: path
