@@ -18,8 +18,6 @@ spec:
       description: commit id
     - name: commit-timestamp
       description: commit timestamp
-    - name: pipeline-debug
-      description: toggles debug mode for the pipeline
     - name: pr-url
       description: pr url
     - name: target-commit-id
@@ -109,18 +107,6 @@ spec:
         - name: secrets
           workspace: artifacts
       params:
-        - name: repository
-          value: $(tasks.extract-repository-url.results.extracted-value)
-        - name: branch
-          value: $(params.branch)
-        - name: scm-type
-          value: $(params.scm-type)
-        - name: project-id
-          value: $(params.project-id)
-        - name: pr-url
-          value: $(params.pr-url)
-        - name: directory-name
-          value: ""
         - name: ibmcloud-api
           value: $(params.ibmcloud-api)
         - name: ibmcloud-region
