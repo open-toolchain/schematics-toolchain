@@ -64,6 +64,9 @@ spec:
     - name: toolchainid
       description: (Optional) The target toolchain id to be used. Defaults to the current toolchain id
       default: ""
+    - name: verbose
+      description: (Optional) Enable verbose log messages
+      default: "false"
 
     # Terraform related parameters
     - name: terraform-report
