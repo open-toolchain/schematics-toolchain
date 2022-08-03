@@ -21,9 +21,6 @@ spec:
     - name: ibmcloud-region
       description: (Optional) ibmcloud region to use
       default: ""
-    - name: registry-region
-      description: (Optional) The ibmcloud container registry region
-      default: ""
     - name: resource-group
       description: (Optional) Target resource group (name or id) for the ibmcloud login operation
       default: ""
