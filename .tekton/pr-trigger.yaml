@@ -48,18 +48,22 @@ spec:
     # Common command related params
     - name: custom-script
       description: (Optional) A custom script to be ran prior to CRA scanning
+      default: ""
     - name: ibmcloud-trace
       description: (Optional) Enables IBMCLOUD_TRACE for ibmcloud cli logging
-    - name: verbose
-      description: (Optional) Enables IBMCLOUD_TRACE for ibmcloud cli logging
+      default: "false"
     - name: output
       description: (Optional) Prints command result to console
+      default: "false"
     - name: path
       description: Repository path to scan
+      default: "/artifacts"
     - name: strict
       description: (Optional) Enables strict mode for scanning
+      default: "false"
     - name: toolchainid
       description: (Optional) The target toolchain id to be used. Defaults to the current toolchain id
+      default: ""
 
     # Terraform related parameters
     - name: terraform-report
