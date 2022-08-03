@@ -32,17 +32,39 @@ spec:
     - name: ibmcloud-api
       description: the ibmcloud api
       default: https://cloud.ibm.com
-    - name: tf-dir
-      description: the directory where the terraform main entry file is found
-      default: ""
-    - name: policy-config-json
-      description: Configure policies to control thresholds
-      default: ""
-    - name: tf-var-file
-      description: (optional) terraform var-file
-      default: ""
     - name: WORKSPACE_ID
       description: workspace id
+    - name: ibmcloud-region
+      description: (Optional) ibmcloud region to use
+      default: ""
+    - name: pipeline-debug
+      description: Toggles debug mode for the pipeline
+      default: "0"
+    - name: registry-region
+      description: (Optional) The ibmcloud container registry region
+      default: ""
+    - name: resource-group
+      description: (Optional) Target resource group (name or id) for the ibmcloud login operation
+      default: ""
+
+      # CRA Terraform related parameters
+    - name: terraform-report
+      description: Filepath to store generated Terraform report. Default to `./terraform.json`
+    - name: tf-dir
+      description: The directory where the terraform main entry file is found if not in parent directory
+    - name: tf-plan
+      description: (Optional) Filepath to Terraform Plan file.
+    - name: tf-var-file
+      description: (Optional) terraform var-file
+    - name: tf-version
+      description: (Optional) The terraform version to use to create Terraform plan
+    - name: tf-policy-file
+      description: (Optional) Filepath to policy profile. This file should contain "scc_goals" and "scc_goal_parameters" that will overwrite default checks.
+    - name: tf-format
+      description: (Optional) Report format. Requires --policy-file. Supported values [OSCAL]
+    - name: tf-state-file
+      description: (Optional) Path of terraform state file. Requires --format to be set to OSCAL.
+
   workspaces:
     - name: artifacts
   tasks:
@@ -80,7 +102,7 @@ spec:
       runAfter:
         - cra-fetch-repo
       taskRef:
-        name: cra-terraform-scan
+        name: cra-terraform-scan-v2
       workspaces:
         - name: artifacts
           workspace: artifacts
@@ -95,15 +117,45 @@ spec:
           value: $(params.scm-type)
         - name: project-id
           value: $(params.project-id)
-        - name: directory-name
-          value: ""
-        - name: pipeline-debug
-          value: $(params.pipeline-debug)
-        - name: tf-dir
-          value: $(params.tf-dir)
-        - name: policy-config-json
-          value: $(params.policy-config-json)
         - name: pr-url
           value: $(params.pr-url)
+        - name: directory-name
+          value: ""
+        - name: ibmcloud-api
+          value: $(params.ibmcloud-api)
+        - name: ibmcloud-region
+          value: $(params.ibmcloud-region)
+        - name: pipeline-debug
+          value: $(params.pipeline-debug)
+        - name: resource-group
+          value: $(params.resource-group)
+        - name: custom-script
+          value: $(params.custom-script)
+        - name: ibmcloud-trace
+          value: $(params.ibmcloud-trace)
+        - name: output
+          value: $(params.output)
+        - name: path
+          value: $(params.path)
+        - name: strict
+          value: $(params.strict)
+        - name: toolchainid
+          value: $(params.toolchainid)
+        - name: verbose
+          value: $(params.verbose)
+        - name: terraform-report
+          value: $(params.terraform-report)
+        - name: tf-dir
+          value: $(params.tf-dir)
+        - name: tf-plan
+          value: $(params.tf-plan)
         - name: tf-var-file
           value: $(params.tf-var-file)
+        - name: tf-policy-file
+          value: $(params.tf-policy-file)
+        - name: tf-version
+          value: $(params.tf-version)
+        - name: tf-format
+          value: $(params.tf-format)
+        - name: tf-state-file
+          value: $(params.tf-state-file)
