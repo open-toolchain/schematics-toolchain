@@ -29,104 +29,96 @@ It implements the following best practices:
 
 This pipeline listens for Pull Requests created against the `main` branch. The purpose of this pipeline is to pull source code and scan through the terraform files for compliance.
 
-#### cra-terraform-scan
-This task scans ibm-terraform-provider files for compliance issues.
+#### terraform-v2
 
-Currently supported compliance checks:
-|ID | Rule | 
-|---------|---------|
-|1| Ensure IAM does not allow too  many admins per account
-|2| Ensure https for all inbound traffic via VPC LBaaS
-|3| Ensure no VPC security groups allow incoming traffic from 0.0.0.0/0 to port 22 (ssh)
-|4| Ensure no security groups have ports open to internet(0.0.0.0/0)
-|5| Ensure VPC flowlogs logging is enabled in all VPCs
-|6| Ensure no VPC security groups allow incoming traffic  from 0.0.0.0/0 to port RDP
-|7| Ensure that COS Storage Encryption is set to On
-|8| Ensure COS bucket is linked to LogDNA
-|9| Ensure network access for COS is restricted to specific IP range
-|10| Ensure certificates are automatically renewed before expiration. (This lifecycle applies to Certificate Manager generated certificates only)
-|11| Ensure that Database for ElasticSearch Encryption is set to On
-|12| Ensure that Database for ETCD Encryption is set to On
-|13| Ensure that Database for MongoDB Encryption is set to On
-|14| Ensure that Database for Radis Encryption is set to On
-|15| Ensure that Database for PostgreSQL Encryption is set to On
-|16| Ensure that Database for RabittMQ Encryption is set to On
-|17| Ensure that Web application firewall is set to On in CIS
-|18| Ensure ActivityTracker is provisioned
-|19| Ensure Activity Tracker is provisioned in multiple regions for that account
-|20| Ensure no all-resource IAM service policy
-|21| Ensure IAM service policy is restricted using resource groups
-|22| Ensure CIS is provisioned
-|23| Ensure DDOS protection is set to On in CIS
-|24| Ensure IAM does not authorize CIS to read from COS
-|25| Ensure SSL is configured properly (using full/strict/origin_pull only)
-|26| Ensure TLS 1.2 for all inbound traffic via CIS
-|27| Ensure DNS record is protected
-|28| Ensure IAM does not allow too many account managers per account
-|29| Ensure IAM does not allow too many IAM admins per account
-|30| Ensure IAM does not allow too many all resource managers per account
-|31| Ensure IAM does not allow too many all resource readers per account
-|32| Ensure IAM does not allow too many KMS managers per account
-|33| Ensure IAM does not allow too many COS managers per account
-|34| Ensure IAM users are attached to access groups
-|35| Ensure CIS load balancer is provisioned
-|36| Ensure CIS load balancer is  properly configured
-|37| Ensure VPC has atleast one security group attached
-|38| Ensure that Databases for ElasticSearch encryption is enabled with BYOK
-|39| Ensure that Databases for MongoDB encryption is enabled with BYOK
-|40| Ensure that Databases for PostgreSQL encryption is enabled with BYOK
-|41| Ensure that Databases for RabbitMQ encryption is enabled with BYOK
-|42| Ensure that Databases for ETCD encryption is enabled with BYOK
-|43| Ensure that Databases for Redis encryption is enabled with BYOK
-|44| Ensure that network access is set for ElasticSearch to be exposed on Private end Points only
-|45| Ensure that network access is set for MongoDB to be exposed on Private end Points only
-|46| Ensure that network access is set for PostgreSQL to be exposed on Private end Points only
-|47| Ensure that network access is set for RabbitMQ to be exposed on Private end Points only
-|48| Ensure that network access is set for ETCD to be exposed on Private end Points only
-|49| Ensure that network access is set for Redis to be exposed on Private end Points only
-|50| Ensure network access for Redis is restricted to specific IP range
-|51| Ensure network access for ETCD is restricted to specific IP range
-|52| Ensure network access for RabitMQ is restricted to specific IP range
-|53| Ensure network access for PostgreSQL is restricted to specific IP range
-|54| Ensure network access for MongoDB is restricted to specific IP range
-|55| Ensure network access for ElasticSearch is restricted to specific IP range
-|56| Ensure that COS Storage Encryption is set to On with BYOK
-|57| Ensure that Database for ETCD Encryption is set to On
+This task uses `ibmcloud cli` and the `cra` plugin to scan ibm-terraform-provider files for compliance issues.
+##### Inputs
 
+##### Parameters
 
-### Inputs
-
-#### Parameters
-
+  - **continuous-delivery-context-secret**: (Default: `secure-properties`) Reference name for the secret resource
   - **ibmcloud-api**: (Default: `https://cloud.ibm.com`) The ibmcloud api url
-  - **repository**: The full URL path to the repo with the deployment files to be scanned
-  - **revision**: (Default: `master`) The branch to scan
-  - **tf-dir**: (Default `""`) The directory where the terraform main entry files are found.
-  - **ibmcloud-apikey-secret-key**: (Default: apikey) field in the secret that contains the api key used to login to ibmcloud
-  - **continuous-delivery-context-secret**: (Default: `secure-properties`) Reference name for the secret resource  
-  - **directory-name**: The directory name where the repository is cloned
+  - **ibmcloud-apikey-secret-key**: (Default: `apikey`) field in the secret that contains the api key used to login to ibmcloud
+  - **ibmcloud-region**: (Optional) The ibmcloud target region
   - **pipeline-debug**: (Default: `0`) 1 = enable debug, 0 no debug
-  - **policy-config-json**: (Default `""`) Configure policies thresholds
-  - **pr-url**: The pull request url
-  - **project-id**: (Default: `""`) Required id for GitLab repositories
-  - **scm-type**: (Default: `github-ent`) Source code type used (github, github-ent, gitlab)
-  - **resource-group**: (Default: `""`) target resource group (name or id) for the ibmcloud login operation
-  - **git-access-token**: (Default: `""`) (optional) token to access the git repository. If this token is provided, there will not be an attempt to use the git token obtained from the authorization flow when adding the git integration in the toolchain
-  - **tf-var-file**: (Default: `""`) Comma seperated list of tf-var files to be passed to terraform
+  - **resource-group**: (Optional) Target resource group (name or id) for the ibmcloud login operation
+  - **custom-script**: (Optional) A custom script to be ran prior to CRA scanning
+  - **ibmcloud-trace**: (Default: `false`) Enables IBMCLOUD_TRACE for ibmcloud cli logging
+  - **output**: (Default: `false`) Prints command result to console
+  - **path**: (Default: `/artifacts`) Directory where the repository is cloned
+  - **strict**: (Optional) Enables strict mode for scanning
+  - **toolchainid**: The ibmcloud target toolchain to be used
+  - **verbose**: (Optional) Enable verbose log messages
+  - **terraform-report**: (Default: `./terraform.json`) Filepath to store generated Terraform report
+  - **tf-dir**: (Default `""`) The directory where the terraform main entry files are found.
+  - **tf-plan**: (Optional) Filepath to Terraform Plan file.
+  - **tf-var-file**: (Optional) Filepath to the Terraform var-file
+  - **tf-version**: (Default: `0.15.5`)  The terraform version to use to create Terraform plan
+  - **tf-policy-file**: (Optional) Filepath to policy profile. This file should contain "scc_goals" and "scc_goal_parameters" that will overwrite default checks
+  - **tf-format**: (Optional) Report format. Requires --policy-file. Supported values: OSCAL
+  - **tf-state-file**: (Optional) Path of terraform state file. Requires --format to be set to OSCAL.
 
-
-
-
-#### Implicit
+##### Implicit
 The following inputs are coming from tekton annotation:
  - **PIPELINE_RUN_ID**: ID of the current pipeline run
 
-### Workspaces
+#### Workspaces
 
 - **artifacts**: The output volume to check out and store task scripts & data between tasks
 
-### Results
+##### Results
 
-- **status**: status of cra terraform scan task, possible value are-success|failure
-- **evidence-store**: filepath to store terraform scan task evidence 
+- **status**: Status of cra terraform task, possible value are - success|failure
+
+##### Usage
+
+Example usage in a pipeline.
+``` yaml
+    - name: cra-terraform-scan
+      taskRef:
+        name: cra-terraform-scan-v2
+      workspaces:
+        - name: artifacts
+          workspace: artifacts
+      params:
+        - name: ibmcloud-api
+          value: $(params.ibmcloud-api)
+        - name: ibmcloud-region
+          value: $(params.ibmcloud-region)
+        - name: pipeline-debug
+          value: $(params.pipeline-debug)
+        - name: resource-group
+          value: $(params.resource-group)
+        - name: custom-script
+          value: $(params.custom-script)
+        - name: ibmcloud-trace
+          value: $(params.ibmcloud-trace)
+        - name: output
+          value: $(params.output)
+        - name: path
+          value: $(params.path)
+        - name: strict
+          value: $(params.strict)
+        - name: toolchainid
+          value: $(params.toolchainid)
+        - name: verbose
+          value: $(params.verbose)
+        - name: terraform-report
+          value: $(params.terraform-report)
+        - name: tf-dir
+          value: $(params.tf-dir)
+        - name: tf-plan
+          value: $(params.tf-plan)
+        - name: tf-var-file
+          value: $(params.tf-var-file)
+        - name: tf-policy-file
+          value: $(params.tf-policy-file)
+        - name: tf-version
+          value: $(params.tf-version)
+        - name: tf-format
+          value: $(params.tf-format)
+        - name: tf-state-file
+          value: $(params.tf-state-file)
+     
+```
 
