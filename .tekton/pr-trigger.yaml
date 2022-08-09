@@ -15,6 +15,15 @@ spec:
       description: target commit id
     - name: apikey
       description: the ibmcloud api key
+    - name: ibmcloud-api
+      description: The ibmcloud api
+      default: "https://cloud.ibm.com"
+    - name: ibmcloud-region
+      description: (Optional) ibmcloud region to use
+      default: ""
+    - name: resource-group
+      description: (Optional) Target resource group (name or id) for the ibmcloud login operation
+      default: ""
     - name: commit-id
       description: commit id
     - name: commit-timestamp
@@ -35,15 +44,56 @@ spec:
     - name: project-id
       description: project id
       default: ""
-    - name: ibmcloud-api
-      description: the ibmcloud api
-      default: https://cloud.ibm.com
+
+    # Common command related params
+    - name: custom-script
+      description: (Optional) A custom script to be ran prior to CRA scanning
+      default: ""
+    - name: ibmcloud-trace
+      description: (Optional) Enables IBMCLOUD_TRACE for ibmcloud cli logging
+      default: "false"
+    - name: output
+      description: (Optional) Prints command result to console
+      default: "false"
+    - name: path
+      description: Repository path to scan
+      default: "/artifacts"
+    - name: strict
+      description: (Optional) Enables strict mode for scanning
+      default: "false"
+    - name: toolchainid
+      description: (Optional) The target toolchain id to be used. Defaults to the current toolchain id
+      default: ""
+    - name: verbose
+      description: (Optional) Enable verbose log messages
+      default: "false"
+
+    # Terraform related parameters
+    - name: terraform-report
+      description: Filepath to store generated Terraform report
+      default: "terraform.json"
     - name: tf-dir
-      description: the directory where the terraform main entry file is found
-    - name: policy-config-json
-      description: Configure policies to control thresholds
+      description: (Optional) The directory where the terraform main entry file is found if not in parent directory
+      default: ""
+    - name: tf-plan
+      description: (Optional) Filepath to Terraform Plan file.
+      default: ""
     - name: tf-var-file
-      description: (optional) terraform var-file
+      description: (Optional) terraform var-file
+      default: ""
+    - name: tf-version
+      description: (Optional) The terraform version to use to create Terraform plan
+      default: "0.15.5"
+    - name: tf-policy-file
+      description: (Optional) Filepath to policy profile. This file should contain "scc_goals" and "scc_goal_parameters" that will overwrite default checks
+      default: ""
+    - name: tf-format
+      description: (Optional) Report format. Requires --policy-file. Supported values [OSCAL]
+      default: ""
+    - name: tf-state-file
+      description: (Optional) Path of terraform state file. Requires --format to be set to OSCAL.
+      default: ""
+
   resourcetemplates:
     - apiVersion: v1
       kind: PersistentVolumeClaim
@@ -99,9 +149,37 @@ spec:
             value: $(params.project-id)
           - name: ibmcloud-api
             value: $(params.ibmcloud-api)
+          - name: ibmcloud-region
+            value: $(params.ibmcloud-region)
+          - name: resource-group
+            value: $(params.resource-group)
+          - name: custom-script
+            value: $(params.custom-script)
+          - name: ibmcloud-trace
+            value: $(params.ibmcloud-trace)
+          - name: output
+            value: $(params.output)
+          - name: path
+            value: $(params.path)
+          - name: strict
+            value: $(params.strict)
+          - name: toolchainid
+            value: $(params.toolchainid)
+          - name: verbose
+            value: $(params.verbose)
+          - name: terraform-report
+            value: $(params.terraform-report)
           - name: tf-dir
             value: $(params.tf-dir)
-          - name: policy-config-json
-            value: $(params.policy-config-json)
+          - name: tf-plan
+            value: $(params.tf-plan)
           - name: tf-var-file
             value: $(params.tf-var-file)
+          - name: tf-policy-file
+            value: $(params.tf-policy-file)
+          - name: tf-version
+            value: $(params.tf-version)
+          - name: tf-format
+            value: $(params.tf-format)
+          - name: tf-state-file
+            value: $(params.tf-state-file)
