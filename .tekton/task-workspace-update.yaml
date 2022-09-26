@@ -98,11 +98,21 @@ spec:
               fi
           done
 
-          cp temp.json workspace.json
+          # Make sure all environment variables are added to the workspace.json
+          if jq -e . >/dev/null 2>&1 <<<"$WORKSPACE"; then
+              echo "$WORKSPACE" > "temp_workspace.json"
+          else
+              echo "$WORKSPACE" | head -n -1 > "temp_workspace.json"
+          fi
+
+          cp temp_workspace.json workspace.json
           ibmcloud terraform workspace update --id $WORKSPACE_ID --file workspace.json
 
           # cleanup
           rm -f workspace.json
+          rm -f temp.json
+          rm -f temp_workspace.json
 
-          sleep 10
+          # sleep for 30 seconds, to wait for Schematics to finish workspace update
+          sleep 30
           unset WORKSPACE
