@@ -54,9 +54,8 @@ This task uses `ibmcloud cli` and the `cra` plugin to scan ibm-terraform-provide
   - **tf-plan**: (Optional) Filepath to Terraform Plan file.
   - **tf-var-file**: (Optional) Filepath to the Terraform var-file
   - **tf-version**: (Default: `0.15.5`)  The terraform version to use to create Terraform plan
-  - **tf-policy-file**: (Optional) Filepath to policy profile. This file should contain "scc_goals" and "scc_goal_parameters" that will overwrite default checks
-  - **tf-format**: (Optional) Report format. Requires --policy-file. Supported values: OSCAL
-  - **tf-state-file**: (Optional) Path of terraform state file. Requires --format to be set to OSCAL.
+  - **tf-policy-file**: (Optional) Filepath to policy profile. This flag can accept an SCC V2 profile or a custom json file with a set of SCC rules. 
+  - **tf-attachment-file**: (Optional) Path of SCC V2 attachment file.
 
 ##### Implicit
 The following inputs are coming from tekton annotation:
@@ -115,10 +114,8 @@ Example usage in a pipeline.
           value: $(params.tf-policy-file)
         - name: tf-version
           value: $(params.tf-version)
-        - name: tf-format
-          value: $(params.tf-format)
-        - name: tf-state-file
-          value: $(params.tf-state-file)
+        - name: tf-attachment-file
+          value: $(params.tf-attachment-file)
      
 ```
 
