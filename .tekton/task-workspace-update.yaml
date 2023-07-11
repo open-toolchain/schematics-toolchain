@@ -97,8 +97,8 @@ spec:
                   fi
               fi
           done
-
-          cp temp.json workspace.json
+          
+          echo "$WORKSPACE" > "workspace.json"
           ibmcloud terraform workspace update --id $WORKSPACE_ID --file workspace.json
 
           # cleanup
